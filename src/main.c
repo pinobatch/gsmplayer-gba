@@ -53,16 +53,16 @@ static void hud_wline(unsigned int y, const char *s)
   unsigned short *dst = MAP[31][y * 2] + 1;
   unsigned int wid_left;
 
-  for(wid_left = 28; wid_left > 0 && *s; wid_left--)
-  {
+  // Write first 28 characters of text line
+  for(wid_left = 28; wid_left > 0 && *s; wid_left--) {
     unsigned char c0 = *s++;
 
     dst[0] = c0 << 1;
     dst[32] = (c0 << 1) | 1;
     ++dst;
   }
-  for(; wid_left > 0; wid_left--, dst++)
-  {
+  // Clear to end of line
+  for(; wid_left > 0; wid_left--, dst++) {
     dst[0] = ' ' << 1;
     dst[32] = (' ' << 1) | 1;
   }
@@ -70,9 +70,7 @@ static void hud_wline(unsigned int y, const char *s)
 
 static void hud_cls(void)
 {
-  dma_memset16(MAP[31], ' ' << 1, 32*20);
-  hud_wline(1, "GSM Player for GBA");
-  hud_wline(2, "by Damian Yerrick");
+  dma_memset16(MAP[31], ' ' << 1, 32*20*2);
 }
 
 void hud_init(void)
@@ -84,9 +82,11 @@ void hud_init(void)
   REG_BG2CNT = SCREEN_BASE(31) | CHAR_BASE(0);
 
   hud_cls();
-  hud_wline(3, "Copr. 2004, 2019");
-  hud_wline(5, "For more info see");
-  hud_wline(6, "TOAST-COPYRIGHT.txt");
+  hud_wline(1, "GSM Player for GBA");
+  hud_wline(2, "Copr. 2004, 2019");
+  hud_wline(3, "Damian Yerrick");
+  hud_wline(4, "and Toast contributors");
+  hud_wline(5, "(See TOAST-COPYRIGHT.txt)");
 
   VBlankIntrWait();
   REG_DISPCNT = 0 | BG2_ON;
@@ -168,9 +168,8 @@ void hud_new_song(const char *name, unsigned int trackno)
 {
   int upper;
 
-  hud_cls();
-  hud_wline(4, "Now playing");
-  hud_wline(5, name);
+  hud_wline(5, "Playing");
+  hud_wline(6, name);
   hud_clock.cycles = 0;
 
   for(upper = 0; upper < 4; upper++)
@@ -448,7 +447,7 @@ int main(void) {
   hud_init();
   fs = find_first_gbfs_file(find_first_gbfs_file);
   if(!fs) {
-    hud_wline(6, "Please append gsmsongs.gbfs");
+    hud_wline(7, "Please append gsmsongs.gbfs");
     BG_COLORS[0] = RGB5(31, 23, 23);
     BG_COLORS[1] = RGB5(16, 0, 0);
     while (1) {
@@ -456,15 +455,11 @@ int main(void) {
     }
   }
 
-  for (unsigned int i = 120; i > 0; --i) {
+  for (unsigned int i = 180; i > 0; --i) {
     VBlankIntrWait();
   }
-
-  hud_new_song("hello world", 1);
-  hud_frame(0, 310830);
-  
   init_sound();
-
+  hud_cls();
   for (unsigned int i = 30; i > 0; --i) {
     VBlankIntrWait();
   }

@@ -41,6 +41,7 @@ word gsm_sub P2((a,b), word a, word b)
 }
 #endif
 
+__attribute__((section(".iwram")))
 static word gsm_asr P2((a,n), word a, int n)
 {
   if (n >= 16) return -(a < 0);
@@ -55,6 +56,7 @@ static word gsm_asr P2((a,n), word a, int n)
 #	endif
 }
 
+__attribute__((section(".iwram")))
 static word gsm_asl P2((a,n), word a, int n)
 {
   if (n >= 16) return 0;
@@ -77,6 +79,7 @@ static word gsm_asl P2((a,n), word a, int n)
 /* GSM_LTSF() is the second biggest bottleneck next to GSM_STSF().
    Some unrolling here helped quite a bit.
 */
+__attribute__((section(".iwram")))
 static void Gsm_Long_Term_Synthesis_Filtering P5((S,Ncr,bcr,erp,drp),
 					  struct gsm_state	* S,
 
@@ -146,6 +149,7 @@ static void Gsm_Long_Term_Synthesis_Filtering P5((S,Ncr,bcr,erp,drp),
 
 /* 4.2.8 */
 
+__attribute__((section(".iwram")))
 static void Decoding_of_the_coded_Log_Area_Ratios P2((LARc,LARpp),
 						     word 	* LARc,		/* coded log area ratio	[0..7] 	IN	*/
 						     word	* LARpp)	/* out: decoded ..			*/
@@ -214,6 +218,7 @@ static void Decoding_of_the_coded_Log_Area_Ratios P2((LARc,LARpp),
  * (Initial value: LARpp(j-1)[1..8] = 0.)
  */
 
+__attribute__((section(".iwram")))
 static void Coefficients_0_12 P3((LARpp_j_1, LARpp_j, LARp),
 				  word * LARpp_j_1,
 				  word * LARpp_j,
@@ -228,6 +233,7 @@ static void Coefficients_0_12 P3((LARpp_j_1, LARpp_j, LARp),
   }
 }
 
+__attribute__((section(".iwram")))
 static void Coefficients_13_26 P3((LARpp_j_1, LARpp_j, LARp),
 				   word * LARpp_j_1,
 				   word * LARpp_j,
@@ -240,6 +246,7 @@ static void Coefficients_13_26 P3((LARpp_j_1, LARpp_j, LARp),
   }
 }
 
+__attribute__((section(".iwram")))
 static void Coefficients_27_39 P3((LARpp_j_1, LARpp_j, LARp),
 				   word * LARpp_j_1,
 				   word * LARpp_j,
@@ -255,6 +262,7 @@ static void Coefficients_27_39 P3((LARpp_j_1, LARpp_j, LARp),
 }
 
 
+__attribute__((section(".iwram")))
 static void Coefficients_40_159 P2((LARpp_j, LARp),
 				    word * LARpp_j,
 				    word * LARp)
@@ -267,6 +275,7 @@ static void Coefficients_40_159 P2((LARpp_j, LARp),
 
 /* 4.2.9.2 */
 
+__attribute__((section(".iwram")))
 static void LARp_to_rp P1((LARp),
 			  word * LARp)	/* [0..7] IN/OUT  */
      /*
@@ -313,6 +322,7 @@ static void LARp_to_rp P1((LARp),
    release of the decoder.  Now on to the other bottleneck:
    Gsm_Long_Term_Synthesis_Filtering */
 
+__attribute__((section(".iwram")))
 static void Short_term_synthesis_filtering P5((S,rrp,k,wt,sr),
 					      struct gsm_state * S,
 					       word	* rrp,	/* [0..7]	IN	*/
@@ -353,6 +363,7 @@ static void Short_term_synthesis_filtering P5((S,rrp,k,wt,sr),
 }
 
 
+__attribute__((section(".iwram")))
 static void Gsm_Short_Term_Synthesis_Filter P4((S, LARcr, wt, s),
 					struct gsm_state * S,
 
@@ -396,6 +407,7 @@ static void Gsm_Short_Term_Synthesis_Filter P4((S, LARcr, wt, s),
 
 /* 4.12.15 */
 
+__attribute__((section(".iwram")))
 static void APCM_quantization_xmaxc_to_exp_mant P3((xmaxc,exp_out,mant_out),
 						   word		xmaxc,		/* IN 	*/
 						   word		* exp_out,	/* OUT	*/
@@ -432,6 +444,7 @@ static void APCM_quantization_xmaxc_to_exp_mant P3((xmaxc,exp_out,mant_out),
 
 /* 4.2.16 */
 
+__attribute__((section(".iwram")))
 static void APCM_inverse_quantization P4((xMc,mant,exp,xMp),
 					 register word	* xMc,	/* [0..12]			IN 	*/
 					 word		mant,
@@ -471,6 +484,7 @@ static void APCM_inverse_quantization P4((xMc,mant,exp,xMp),
 
 /* 4.2.17 */
 
+__attribute__((section(".iwram")))
 static void RPE_grid_positioning P3((Mc,xMp,ep),
 				    word		Mc,		/* grid position	IN	*/
 				    register word	* xMp,		/* [0..12]		IN	*/
@@ -530,6 +544,7 @@ static void RPE_grid_positioning P3((Mc,xMp,ep),
 /* 4.2.18 */
 
 
+__attribute__((section(".iwram")))
 static void Gsm_RPE_Decoding P5((S, xmaxcr, Mcr, xMcr, erp),
 			 struct gsm_state	* S,
 
@@ -555,6 +570,7 @@ static void Gsm_RPE_Decoding P5((S, xmaxcr, Mcr, xMcr, erp),
  *  4.3 FIXED POINT IMPLEMENTATION OF THE RPE-LTP DECODER
  */
 
+__attribute__((section(".iwram")))
 static void Postprocessing P2((S,s),
 			      struct gsm_state	* S,
 			      register word 		* s)
@@ -573,6 +589,7 @@ static void Postprocessing P2((S,s),
   PROFILE_COLOR(29,31,27);
 }
 
+__attribute__((section(".iwram")))
 static void Gsm_Decoder P8((S,LARcr, Ncr,bcr,Mcr,xmaxcr,xMcr,s),
 		    struct gsm_state	* S,
 
@@ -633,7 +650,8 @@ gsm gsm_create P0()
 
 /* begin gsm_decode.c ********************/
 
-__attribute__((long_call)) int gsm_decode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
+__attribute__((section(".iwram"), long_call))
+int gsm_decode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
 {
   word  	LARc[8], Nc[4], Mc[4], bc[4], xmaxc[4], xmc[13*4];
 
