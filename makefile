@@ -87,7 +87,7 @@ $(TARGET)-bare.elf: $(OFILES)
 $(BUILD)/%.o: $(SOURCES)/%.c $(SOURCES)/global.h
 	$(CC) $(CFLAGS) -g -c -mthumb $< -o $@
 
-$(BUILD)/%.iwram.o: $(SOURCES)/%.c $(SOURCES)/global.h
+$(BUILD)/%.iwram.o: $(SOURCES)/%.iwram.c $(SOURCES)/global.h
 	$(CC) $(CFLAGS) -g -c -marm $< -o $@
 
 $(BUILD)/%.o: $(SOURCES)/%.S
