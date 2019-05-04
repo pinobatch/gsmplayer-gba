@@ -1,0 +1,13 @@
+/obj/gba/*.o
+/obj/gba/*.h
+/obj/gba/*.s
+/old
+/*.elf
+/*.gsm
+zip.in
+/.map
+/*.gba
+/*.tar.gz
+/*.zip
+/*.sav
+/gsm-1.0*

@@ -1,0 +1,24 @@
+# In SoX v12.7.3 (from 16 December 2001), this command used to
+# produce wave files in the nonstandard rate used by GSM Player:
+#
+#     sox hello.wav -r 18157 -c 1 hello.gsm
+#
+# But by SoX v14.4.2 (in Ubuntu 18.04), SoX became much pickier
+# about the output sample rate for certain formats, producing the
+# following error message with no obvious option to override:
+#
+#     sox WARN formats: gsm can't encode at 18157Hz; using 8000Hz
+#
+# Now you have to trick SoX into ignoring this mismatch by using two
+# SoX processes, one to resample the audio and one to encode it, and
+# lying to the second one about the sample rate of its input.
+
+sox /home/pino/develop/action53/audio/selnow.wav -r 18157 -t s16 -c 1 - | sox -t s16 -r 8000 -c 1 - selnow.gsm
+
+# It also takes two SoX processes to play a file encoded this way:
+
+sox selnow.gsm -t s16 - | play -t s16 -r 18157 -c 1 -
+
+# Somehow this works too, per mGBA developer endrift
+# ffmpeg -i /home/pino/develop/action53/audio/selnow.wav -af 'aresample=18157' -b:a 13k -strict unofficial -c:a gsm selnow-ff.gsm
+# At least FFmpeg has an override.
