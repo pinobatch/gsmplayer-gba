@@ -96,10 +96,6 @@ $(BUILD)/%.o: $(SOURCES)/%.S
 $(BUILD)/%.o: $(BUILD)/%.s
 	$(AS) $< -o $@
 
-# Files that #include specialized libraries' headers
-
-$(BUILD)/stills.o: $(SOURCES)/4bcanvas.h
-
 # Image conversion
 
 $(BUILD)/8x16.s: tilesets/8x16.png
@@ -108,11 +104,19 @@ $(BUILD)/8x16.s: tilesets/8x16.png
 # Packaging
 
 clean:
-	-rm $(BUILD)/*.o $(BUILD)/*.s $(BUILD)/*.h $(TARGET).elf
+	-rm $(BUILD)/*.o $(BUILD)/*.s $(BUILD)/*.h $(TARGET)-bare.elf
+	-rm zip.in
+
 dist: zip
 zip: $(TARGET)-$(VERSION).zip
 $(TARGET)-$(VERSION).zip: zip.in \
   README.md $(BUILD)/index.txt $(TARGET).gba
 	zip -9 -u $@ -@ < $<
+
+zip.in:
+	git ls-files | grep -e "^[^.]" > $@
+	echo $(TARGET)-bare.gba >> $@
+	echo zip.in >> $@
+
 $(BUILD)/index.txt: makefile
-	echo Files produced by build tools go here, but caulk goes where? > $@
+	echo "Files produced by build tools go here" > $@
