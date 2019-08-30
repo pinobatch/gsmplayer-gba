@@ -651,7 +651,7 @@ gsm gsm_create P0()
 /* begin gsm_decode.c ********************/
 
 __attribute__((section(".iwram"), long_call))
-int gsm_decode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
+int gsm_decode P3((s, c, target), gsm s, const gsm_byte * c, gsm_signal * target)
 {
   word  	LARc[8], Nc[4], Mc[4], bc[4], xmaxc[4], xmc[13*4];
 

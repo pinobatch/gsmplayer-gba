@@ -59,7 +59,7 @@ extern gsm  gsm_create 	GSM_P((void));
 extern void gsm_destroy GSM_P((gsm));	
 #endif
 
-__attribute__((long_call)) int  gsm_decode  GSM_P((gsm, gsm_byte   *, gsm_signal *));
+__attribute__((long_call)) int  gsm_decode  GSM_P((gsm, const gsm_byte *, gsm_signal *));
 
 #undef	GSM_P
 

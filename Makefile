@@ -106,14 +106,14 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
-.PHONY: $(BUILD)/$(TARGET)-bare.gba clean
+.PHONY: $(BUILD)/$(TARGET)-bare_mb.gba clean
 
 
-$(TARGET).gba	:	$(BUILD)/$(TARGET)-bare.gba gsmsongs.gbfs
+$(TARGET).gba	:	$(BUILD)/$(TARGET)-bare_mb.gba gsmsongs.gbfs
 	padbin 256 $<
 	cat $^ > $@
 
-$(BUILD)/$(TARGET)-bare.gba: $(SOURCES)
+$(BUILD)/$(TARGET)-bare_mb.gba: $(SOURCES)
 	@[ -d $(BUILD) ] || mkdir -p $(BUILD)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
@@ -130,9 +130,9 @@ else
 # main targets
 #---------------------------------------------------------------------------------
 
-$(TARGET)-bare.gba	:	$(TARGET)-bare.elf
+$(TARGET)-bare_mb.gba	:	$(TARGET)-bare_mb.elf
 
-$(TARGET)-bare.elf	:	$(OFILES)
+$(TARGET)-bare_mb.elf	:	$(OFILES)
 
 $(OFILES_SOURCES) : $(HFILES)
 
