@@ -19,6 +19,8 @@ sox /home/pino/develop/action53/audio/selnow.wav -r 18157 -t s16 -c 1 - | sox -t
 
 sox selnow.gsm -t s16 - | play -t s16 -r 18157 -c 1 -
 
-# Somehow this works too, per mGBA developer endrift
-# ffmpeg -i /home/pino/develop/action53/audio/selnow.wav -af 'aresample=18157' -b:a 13k -strict unofficial -c:a gsm selnow-ff.gsm
-# At least FFmpeg has an override.
+# This one works too, suggested by mGBA developer Vicki "endrift" Pfau.
+# Fortunately for us, FFmpeg allows overriding its sample rate check
+# with the -strict flag.
+ffmpeg -i '/home/pino/Music/Mr. Mister - Kyrie.mp3' -ac 1 -af 'aresample=18157' -strict unofficial -c:a gsm Kyrie.gsm
+ffplay -ar 18157 Kyrie.gsm
