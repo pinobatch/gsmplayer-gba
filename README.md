@@ -1,8 +1,14 @@
 GSM Player
 ==========
-This is a port of [GSM Player for GBA] to devkitARM as of 2019.
-(It was originally designed for devkitARM as of 2004, and several
-things ended up broken with linker script changes since then.)
+In mid-2004, I ported the GSM RPE-LTP (also called GSM Full Rate)
+audio codec, which has been used in mobile phones, to the Game Boy
+Advance.  Now you can use your GBA as a portable music player, with
+up to 150 minutes of Good Sounding Music on a 256 Mbit flash cart. 
+
+From mid-2004 to mid-2019, [GSM Player for GBA] went unmaintained,
+and changes to popular GBA homebrew toolchains rendered it
+unbuildable.  This repository ports the application to a more
+recent version of devkitARM.
 
 [GSM Player for GBA]: https://pineight.com/gba/gsm/
 
@@ -24,7 +30,7 @@ Controls
 To control the player:
 
 - Left: Previous track
-- Right: Next tracks
+- Right: Next track
 - L: Seek backward
 - R: Seek forward
 - Select: Lock other keys
