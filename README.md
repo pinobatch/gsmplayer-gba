@@ -15,15 +15,18 @@ recent version of devkitARM.
 
 Building a ROM
 --------------
-1. If building from source, `make allnewgsm-bare.gba` and pad
-   `allnewgsm-bare.gba` to a 256-byte boundary
+1. If building from source:
+
+       make build/allnewgsm-bare_mb.gba
+       padbin 256 build/allnewgsm-bare_mb.gba
+
 2. Convert audio files to GSM at 18157 Hz (a nonstandard rate; see
    `docs/lying_to_sox.txt` for how to force this in SoX and FFmpeg)
 3. Pack them into a single GBFS file using `gbfs` included with
    devkitARM tools: `gbfs gsmsongs.gbfs *.gsm`
 4. Concatenate the player and the songs.
-    - On Windows: `copy /b allnewgsm-bare.gba+gsmsongs.gbfs allnewgsm.gba`
-    - On UNIX: `cat allnewgsm-bare.gba gsmsongs.gbfs > allnewgsm.gba`
+    - On Windows: `copy /b build\allnewgsm-bare_mb.gba+gsmsongs.gbfs allnewgsm.gba`
+    - On UNIX: `cat build/allnewgsm-bare_mb.gba gsmsongs.gbfs > allnewgsm.gba`
 
 Controls
 --------
